@@ -1,0 +1,31 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: CBOMbench
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Simon
+    family-names: Egli
+    email: simon.egli4@students.unibe.ch
+    affiliation: University of Bern
+  - given-names: Roman
+    family-names: Bögli
+    email: roman.boegli@unibe.ch
+    affiliation: University of Bern
+    orcid: "https://orcid.org/0009-0004-8745-7800"
+  - given-names: Timo
+    family-names: Kehrer
+    email: timo.kehrer@unibe.ch
+    affiliation: University of Bern
+    orcid: "https://orcid.org/0000-0002-2582-5557"
+repository-code: "https://github.com/SEG-UNIBE/cbombench"
+abstract: A testbed for benchmarking Cryptographic Bills of Materials (CBOMs).
+keywords:
+  - python
+  - benchmark
+  - cbom
+license: Apache-2.0
