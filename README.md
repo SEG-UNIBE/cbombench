@@ -6,3 +6,4 @@
 
 # CBOMbench
 
+![classdiagram](./docs/classdiag.png)
