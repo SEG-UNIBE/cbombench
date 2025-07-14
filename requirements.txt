@@ -1,0 +1,11 @@
+websocket-client
+requests
+click
+datetime
+tqdm
+podman-compose
+openai
+pandas
+matplotlib
+seaborn
+tabulate
