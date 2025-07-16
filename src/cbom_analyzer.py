@@ -441,13 +441,43 @@ class CBOMComparisonAnalyzer:
         valid_plot_data = [data for data in plot_data if not data.empty]
 
         if valid_plot_data:
-            bp = plt.boxplot(valid_plot_data, labels=valid_tools, patch_artist=True)
-            colors = ['#1f77b4', '#ff7f0e', '#2ca02c']
-            for patch, color in zip(bp['boxes'], colors):
-                patch.set_facecolor(color)
-            plt.title('Execution Time Distribution', fontsize=14, fontweight='bold')
-            plt.ylabel('Time (seconds)')
-            plt.xlabel('Tool')
+            # Create a dataframe for boxplot
+            plot_df = df[df['Tool'].isin(valid_tools) & df['Execution_Time'].notna()].copy()
+
+            # Remove outliers using IQR method for each tool
+            filtered_data = []
+            for tool in valid_tools:
+                tool_data = plot_df[plot_df['Tool'] == tool]['Execution_Time']
+                if len(tool_data) > 0:
+                    Q1 = tool_data.quantile(0.25)
+                    Q3 = tool_data.quantile(0.75)
+                    IQR = Q3 - Q1
+                    lower_bound = Q1 - 1.5 * IQR
+                    upper_bound = Q3 + 1.5 * IQR
+
+                    # Filter out outliers
+                    tool_filtered = plot_df[(plot_df['Tool'] == tool) &
+                                            (plot_df['Execution_Time'] >= lower_bound) &
+                                            (plot_df['Execution_Time'] <= upper_bound)]
+                    filtered_data.append(tool_filtered)
+
+            if filtered_data:
+                plot_df_filtered = pd.concat(filtered_data, ignore_index=True)
+
+                # Create boxplot data for matplotlib
+                filtered_plot_data = [plot_df_filtered[plot_df_filtered['Tool'] == tool]['Execution_Time'].values
+                                      for tool in valid_tools]
+
+                bp = plt.boxplot(filtered_plot_data, labels=[tool.capitalize() for tool in valid_tools],
+                                 patch_artist=True, showfliers=False)
+                colors = ['#1f77b4', '#ff7f0e', '#2ca02c']
+                for patch, color in zip(bp['boxes'], colors):
+                    patch.set_facecolor(color)
+                plt.title('Execution Time (Outliers Removed)', fontsize=14, fontweight='bold')
+                plt.ylabel('Time (seconds)')
+                plt.xlabel('Tool')
+            else:
+                plt.text(0.5, 0.5, 'No execution time data available after filtering', ha='center', va='center')
         else:
             plt.text(0.5, 0.5, 'No execution time data available', ha='center', va='center')
 
@@ -487,6 +517,8 @@ class CBOMComparisonAnalyzer:
         """
         # Filter the DataFrame to include only rows with valid Java_Size and Execution_Time
         plot_df = df[df['Java_Size'].notna() & df['Execution_Time'].notna()].copy()
+        # Convert Java_Size from KB to MB
+        plot_df['Java_Size_MB'] = plot_df['Java_Size'] / 1024
 
         if plot_df.empty:
             print("\nSkipping size vs. time charts: No data with both Java size and execution time available.")
@@ -516,12 +548,12 @@ class CBOMComparisonAnalyzer:
                 continue
 
             plt.figure(figsize=(10, 6))
-            sns.regplot(data=tool_df, x='Java_Size', y='Execution_Time', ci=None,
+            sns.regplot(data=tool_df, x='Java_Size_MB', y='Execution_Time', ci=None,
                         scatter_kws={'s': 80, 'alpha': 0.7},
                         line_kws={'color': 'red', 'linestyle': '--'})
 
             plt.title(f'Java Code Size vs. Execution Time ({tool.capitalize()})', fontsize=14, fontweight='bold')
-            plt.xlabel('Java Code Size (KB)')
+            plt.xlabel('Java Code Size (MB)')
             plt.ylabel('Execution Time (seconds)')
             plt.grid(True, linestyle='--', alpha=0.6)
 

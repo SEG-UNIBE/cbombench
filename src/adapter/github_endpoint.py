@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 
 GITHUB_SEARCH_URL = "https://api.github.com/search/repositories"
 GITHUB_REPO_URL = "https://api.github.com/repos"
-PAGE_SIZE = 50
+PAGE_SIZE = 200
 
 
 def find_repos(language="java", min_size=1000, max_size=None, sample_size=5):
