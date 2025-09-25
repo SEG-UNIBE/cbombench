@@ -1,10 +1,22 @@
-[![Changelog](https://img.shields.io/github/v/release/SEG-UNIBE/cbombench?include_prereleases)](https://github.com/SEG-UNIBE/cbombench/releases)
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/SEG-UNIBE/cbombench/blob/main/LICENSE)
-[![DOI](https://zenodo.org/badge/1019420739.svg)](https://doi.org/10.5281/zenodo.15878453)
+> [!WARNING]  
+> **This repository is archived.**  
+>  
+> Development has been discontinued in this project.  
+> All efforts continue in [BF-CBOM](https://github.com/SEG-UNIBE/BF-CBOM), which provides a redesigned architecture and extended functionality.  
+
+</br>
+</br>
+</br>
+
+---
 
 ---
 
 # CBOMbench
+[![Changelog](https://img.shields.io/github/v/release/SEG-UNIBE/cbombench?include_prereleases)](https://github.com/SEG-UNIBE/cbombench/releases)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/SEG-UNIBE/cbombench/blob/main/LICENSE)
+[![DOI](https://zenodo.org/badge/1019420739.svg)](https://doi.org/10.5281/zenodo.15878453)
+
 ![classdiagram](./docs/classdiag.png)
 
 CBOMbench is a modular benchmarking framework for evaluating **Cryptographic Bill of Materials (CBOM)** generation tools. It automates testing of CBOM tools across real-world GitHub repositories and produces analysis based on output quality and performance metrics.
